@@ -32,12 +32,12 @@ public class MontlyReport {
         }
         return sumMonthlyExpenses;
     }
-    public static ArrayList sumMontlyProfit(ArrayList<String> monthlyReport) {
-        ArrayList<Integer> sumMonthlyProfit = new ArrayList<>();
+    public static ArrayList sumMontlyIncome(ArrayList<String> monthlyReport) {
+        ArrayList<Integer> sumMonthlyIncome = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
             String[] lines = monthlyReport.get(i).split("\\n");
-            Integer sumProfit = 0;
+            Integer sumIncome = 0;
             for (int a = 1; a < lines.length; a++){
                 String[] lineContents = lines[a].split(",");
                 for (int b = 1; b < lineContents.length; b = b + 4){
@@ -45,13 +45,50 @@ public class MontlyReport {
                     if (isExpense == false){
                         Integer quantity = Integer.parseInt(lineContents[b + 1]);
                         Integer sumOfOne = Integer.parseInt(lineContents[b + 2]);
-                        sumProfit += quantity*sumOfOne;
+                        sumIncome += quantity*sumOfOne;
                     }
                 }
             }
-            sumMonthlyProfit.add(sumProfit);
+            sumMonthlyIncome.add(sumIncome);
         }
-        return sumMonthlyProfit;
+        return sumMonthlyIncome;
+    }
+
+    public static void infoMonthlyReport (ArrayList<String> monthlyReport){
+        System.out.println("Информация по загруженным месячным отчетам");
+        for (int i = 0; i < 3; i++) {
+            String[] lines = monthlyReport.get(i).split("\\n");
+            int maxExpense = 0;
+            int maxIncome = 0;
+            String expenseItem = (" ");
+            String incomeItem = (" ");
+            System.out.println("Месяц " + Work.nameOfMonthes().get(i+1) + ":");
+            for (int a = 1; a < lines.length; a++){
+                String[] lineContents = lines[a].split(",");
+                for (int b = 1; b < lineContents.length; b = b + 4){
+                    Boolean isExpense = Boolean.parseBoolean(lineContents[b]);
+                    int expense = 0;
+                    int income = 0;
+                    Integer quantity = Integer.parseInt(lineContents[b + 1]);
+                    Integer sumOfOne = Integer.parseInt(lineContents[b + 2]);
+                    if (isExpense == true){
+                        expense = quantity*sumOfOne;
+                        if (expense > maxExpense){
+                            maxExpense = expense;
+                            expenseItem = lineContents[b-1];
+                        }
+                    }else{
+                        income = quantity*sumOfOne;
+                        if (income > maxIncome){
+                            maxIncome = income;
+                            incomeItem = lineContents[b-1];
+                        }
+                    }
+                }
+            }
+            System.out.println("Самый прибыльный товар - " + incomeItem + ", сумма дохода - " + maxIncome);
+            System.out.println("Самая большая трата - " + expenseItem + ", сумма траты - " + maxExpense);
+        }
     }
 }
 
