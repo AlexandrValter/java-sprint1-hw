@@ -7,7 +7,7 @@ import java.util.Objects;
 
 public class Work {
 
-    public static String readFileContentsOrNull(String path) {
+    public static String readFileContentsOrNull(String path) {//метод для считывания файлов
         try {
             return Files.readString(Path.of(path));
         } catch (IOException e) {
@@ -16,7 +16,7 @@ public class Work {
         }
     }
 
-    public static void reviseData() {
+    public static void reviseData() { //метод для сверки отчетов, сравнивает данные 4х списков, полученных в других методах
 
         ArrayList <Integer> monthlyExpenses;
         ArrayList <Integer> monthlyIncome;
@@ -26,14 +26,14 @@ public class Work {
         monthlyIncome = MontlyReport.sumMontlyIncome(MontlyReport.readMonthlyReport());
         yearlyExpense = YearlyReport.yearlyExpense(YearlyReport.readYearlyReport());
         yearlyIncome = YearlyReport.yearlyIncome(YearlyReport.readYearlyReport());
-        ArrayList <Integer> monthesError = new ArrayList<>();
+        ArrayList <Integer> monthesError = new ArrayList<>(); //в этот список добавляется номер месяца, в случае если будет выявлена ошибка
         for (int i = 0; i < yearlyExpense.size(); i++) {
             if (!Objects.equals(monthlyExpenses.get(i), yearlyExpense.get(i)) || !Objects.equals(monthlyIncome.get(i), yearlyIncome.get(i))) {
                 monthesError.add(i + 1);
                 i++;
             }
         }
-        if (monthesError.isEmpty()){
+        if (monthesError.isEmpty()){ //проверка наличия ошибок в списке
             System.out.println("Сверка завершена успешно, несоответсвий не обнаружено");
         }else{
             System.out.println("Обнаружено несоответствие. Количество месяцев с неверными данными: " + monthesError.size());

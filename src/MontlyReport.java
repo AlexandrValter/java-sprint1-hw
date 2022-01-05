@@ -2,16 +2,16 @@ import java.util.ArrayList;
 
 public class MontlyReport {
 
-    public static ArrayList<String> readMonthlyReport() { //считываем данные из файлов с месячными отчетами
-        ArrayList<String> allMonthlyReports = new ArrayList<>(); //данные будут сохранены в список allMonthlyReports
+    public static ArrayList<String> readMonthlyReport() {
+        ArrayList<String> allMonthlyReports = new ArrayList<>();
         for (int i = 1; i < 4; i++) {
-            String report = Work.readFileContentsOrNull("C:\\Users\\User\\dev\\java-sprint1-hw\\resources\\m.20210" + i + ".csv");
+            String report = Work.readFileContentsOrNull("resources\\m.20210" + i + ".csv");
             allMonthlyReports.add(report);
         }
         return allMonthlyReports;
     }
 
-    public static ArrayList sumMontlyExpenses(ArrayList<String> monthlyReport) {
+    public static ArrayList sumMontlyExpenses(ArrayList<String> monthlyReport) {//метод считает сумму трат помесячно
         ArrayList<Integer> sumMonthlyExpenses = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
@@ -32,7 +32,7 @@ public class MontlyReport {
         }
         return sumMonthlyExpenses;
     }
-    public static ArrayList sumMontlyIncome(ArrayList<String> monthlyReport) {
+    public static ArrayList sumMontlyIncome(ArrayList<String> monthlyReport) {//метод считает сумму доходов помесячно
         ArrayList<Integer> sumMonthlyIncome = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
@@ -54,7 +54,7 @@ public class MontlyReport {
         return sumMonthlyIncome;
     }
 
-    public static void infoMonthlyReport (ArrayList<String> monthlyReport){
+    public static void infoMonthlyReport (ArrayList<String> monthlyReport){//метод для вывода информации по месячным отчетам
         System.out.println("Информация по загруженным месячным отчетам");
         for (int i = 0; i < 3; i++) {
             String[] lines = monthlyReport.get(i).split("\\n");

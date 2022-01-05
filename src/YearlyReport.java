@@ -4,11 +4,11 @@ import java.util.HashMap;
 public class YearlyReport {
 
     public static String readYearlyReport(){
-        String yearlyReport = Work.readFileContentsOrNull("C:\\Users\\User\\dev\\java-sprint1-hw\\resources\\y.2021.csv");
+        String yearlyReport = Work.readFileContentsOrNull("resources\\y.2021.csv");
         return yearlyReport;
     }
 
-    public static ArrayList yearlyExpense(String yearlyReport) {
+    public static ArrayList yearlyExpense(String yearlyReport) {//метод формирует список готовых трат
         ArrayList<Integer> yearlyExpense = new ArrayList<>();
         String[] lines = yearlyReport.split("\\n");
         for (int a = 1; a < lines.length; a++){
@@ -23,7 +23,7 @@ public class YearlyReport {
         }
         return yearlyExpense;
     }
-    public static ArrayList yearlyIncome(String yearlyReport) {
+    public static ArrayList yearlyIncome(String yearlyReport) {//метод формирует список годовых доходов
         ArrayList<Integer> yearlyIncome = new ArrayList<>();
         String[] lines = yearlyReport.split("\\n");
         for (int a = 1; a < lines.length; a++){
@@ -39,7 +39,7 @@ public class YearlyReport {
         return yearlyIncome;
     }
 
-    public static void infoYearlyReport (String yearlyReport){
+    public static void infoYearlyReport (String yearlyReport){//метод для вывода информации по годовому отчету
 
         HashMap<Integer, Integer> expense = new HashMap<>();
         HashMap<Integer, Integer> income = new HashMap<>();
