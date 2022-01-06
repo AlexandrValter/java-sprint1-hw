@@ -4,26 +4,31 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-
+        loop:
         while (true) {
-            Work.printMenu();
-            int command = scanner.nextInt();
-
-            if (command == 1) {
-                MontlyReport.readMonthlyReport();
-            } else if (command == 2) {
-                YearlyReport.readYearlyReport();
-            } else if (command == 3) {
-                Work.reviseData();
-            } else if (command == 4) {
-                MontlyReport.infoMonthlyReport(MontlyReport.readMonthlyReport());
-            }else if (command == 5) {
-                YearlyReport.infoYearlyReport(YearlyReport.readYearlyReport());
-            }else if (command == 321) {
-                System.out.println("Выход");
-                break;
-            }else{
-                System.out.println("Извините, такой команды нет, повторите ввод");
+            ReportManager.printMenu();
+            String command = scanner.next();
+            switch (command) {
+                case ("1"):
+                    ReportManager.readMonthlyReport();
+                    break;
+                case ("2"):
+                    ReportManager.readYearlyReport();
+                    break;
+                case ("3"):
+                    ReportManager.reviseReport();
+                    break;
+                case ("4"):
+                    MonthlyReport.infoMonthlyReport(ReportManager.monthlyReport);
+                    break;
+                case ("5"):
+                    YearlyReport.infoYearlyReport(ReportManager.yearlyReport);
+                    break;
+                case ("`"):
+                    System.out.println("Выход");
+                    break loop;
+                default:
+                    System.out.println("Извините, такой команды нет, повторите ввод");
             }
         }
     }

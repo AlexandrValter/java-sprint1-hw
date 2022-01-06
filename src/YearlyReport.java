@@ -1,82 +1,39 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class YearlyReport {
 
-    public static String readYearlyReport(){
-        String yearlyReport = Work.readFileContentsOrNull("resources\\y.2021.csv");
-        return yearlyReport;
-    }
-
-    public static ArrayList yearlyExpense(String yearlyReport) {//метод формирует список готовых трат
-        ArrayList<Integer> yearlyExpense = new ArrayList<>();
-        String[] lines = yearlyReport.split("\\n");
-        for (int a = 1; a < lines.length; a++){
-            String[] lineContents = lines[a].split(",");
-            for (int b = 2; b < lineContents.length; b = b + 3){
-                Boolean isExpense = Boolean.parseBoolean(lineContents[b]);
-                if (isExpense == true){
-                    Integer z = Integer.parseInt(lineContents[b-2]);
-                    yearlyExpense.add(z - 1, Integer.parseInt(lineContents[b-1]));
+    public static void infoYearlyReport(HashMap<String, HashMap<Integer, Integer>> yearlyReport) {
+        if (yearlyReport.size() == 0) {
+            System.out.println("Недостаточно данных для вывода информации, произведите считывание годового отчета");
+        } else {
+            System.out.println("Информация по 2021 году");
+            int avgEarning = 0;
+            int avgExpense = 0;
+            HashMap<Integer, Integer> yearlyExpenses = new HashMap<>();
+            HashMap<Integer, Integer> yearlyEarnings = new HashMap<>();
+            for (String type : yearlyReport.keySet()) {
+                if (type.equals("Expenses")) {
+                    yearlyExpenses = yearlyReport.get(type);
+                    avgExpense = average(yearlyExpenses);
+                } else {
+                    yearlyEarnings = yearlyReport.get(type);
+                    avgEarning = average(yearlyEarnings);
                 }
             }
-        }
-        return yearlyExpense;
-    }
-    public static ArrayList yearlyIncome(String yearlyReport) {//метод формирует список годовых доходов
-        ArrayList<Integer> yearlyIncome = new ArrayList<>();
-        String[] lines = yearlyReport.split("\\n");
-        for (int a = 1; a < lines.length; a++){
-            String[] lineContents = lines[a].split(",");
-            for (int b = 2; b < lineContents.length; b = b + 3){
-                Boolean isExpense = Boolean.parseBoolean(lineContents[b]);
-                if (isExpense == false){
-                    Integer z = Integer.parseInt(lineContents[b-2]);
-                    yearlyIncome.add(z - 1, Integer.parseInt(lineContents[b-1]));
-                }
+            for (Integer i : yearlyEarnings.keySet()) {
+                System.out.println("Прибыль за " + ReportManager.nameOfMonthes().get(i) + " составила " +
+                        (yearlyEarnings.get(i) - yearlyExpenses.get(i)));
             }
+            System.out.println("Средний расход за год составил " + avgExpense);
+            System.out.println("Средний доход за год составил " + avgEarning);
         }
-        return yearlyIncome;
     }
 
-    public static void infoYearlyReport (String yearlyReport){//метод для вывода информации по годовому отчету
-
-        HashMap<Integer, Integer> expense = new HashMap<>();
-        HashMap<Integer, Integer> income = new HashMap<>();
-        String[] lines = yearlyReport.split("\\n");
-        System.out.println("Информация по 2021 году:");
-        for (int a = 1; a < lines.length; a++){
-            String[] lineContents = lines[a].split(",");
-            for (int b = 2; b < lineContents.length; b = b + 3){
-                Boolean isExpense = Boolean.parseBoolean(lineContents[b]);
-                Integer x = Integer.parseInt(lineContents[b-2]);
-                Integer y = Integer.parseInt(lineContents[b-1]);
-                if (isExpense == true){
-                    expense.put(x, y);
-                }else{
-                    income.put(x, y);
-                }
-            }
+    public static int average(HashMap<Integer, Integer> data) {
+        int sum = 0;
+        for (Integer i : data.values()) {
+            sum += i;
         }
-        for (Integer i : expense.keySet()){
-            System.out.println("Прибыль в месяце " + Work.nameOfMonthes().get(i) + " составила: " + (income.get(i) - expense.get(i)));
-        }
-        int avgExpense = 0;
-        int sumExpense = 0;
-        for (Integer i : expense.keySet()){
-            sumExpense +=expense.get(i);
-        }
-        avgExpense = sumExpense / expense.size();
-        System.out.println("Средний расход в году составил: " + avgExpense);
-        int avgIncome = 0;
-        int sumIncome = 0;
-        for (Integer i : income.keySet()){
-            sumIncome +=income.get(i);
-        }
-        avgIncome = sumIncome / income.size();
-        System.out.println("Средний доход в году составил: " + avgIncome);
+        return sum / data.size();
     }
-
 }
-
-
